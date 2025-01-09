@@ -3,16 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>File Archive</title>
+  <title>Cloud File Archive</title>
   <link rel="stylesheet" href="styles.css">
+  <script src="https://www.gstatic.com/firebasejs/9.24.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.24.0/firebase-storage.js"></script>
 </head>
 <body>
   <div class="container">
-    <h1>File Archive</h1>
+    <h1>Cloud File Archive</h1>
     <div class="form-container">
       <input type="text" id="archiveName" placeholder="Enter File Name">
       <input type="file" id="fileInput" accept=".pdf,.rar,.zip,.jpg,.png,.jpeg">
-      <button id="uploadButton">Upload File</button>
+      <button id="uploadButton">Upload to Cloud</button>
     </div>
 
     <div class="search-container">
@@ -25,7 +27,7 @@
           <th>#</th>
           <th>File Name</th>
           <th>Type</th>
-          <th>Preview/Download</th>
+          <th>Cloud Link</th>
           <th>Action</th>
         </tr>
       </thead>
@@ -35,6 +37,21 @@
     </table>
   </div>
 
+  <script>
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT_ID.appspot.com",
+      messagingSenderId: "YOUR_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const storage = firebase.storage();
+  </script>
   <script src="scripts.js"></script>
 </body>
 </html>
