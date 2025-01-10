@@ -1,92 +1,57 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const archiveTable = document.querySelector('#archiveTable tbody');
-    const uploadButton = document.getElementById('uploadButton');
-    const searchInput = document.getElementById('searchInput');
-    let archiveCounter = 0;
-  
-    // Menambahkan baris baru ke tabel
-    function addFileRow(fileName, fileType, fileURL) {
-      archiveCounter++;
-      const row = document.createElement('tr');
-  
-      row.innerHTML = `
-        <td>${archiveCounter}</td>
-        <td>${fileName}</td>
-        <td>${fileType}</td>
-        <td><a href="${fileURL}" target="_blank">View/Download</a></td>
-        <td><button class="delete-button">Delete</button></td>
-      `;
-  
-      // Tombol hapus file
-      row.querySelector('.delete-button').addEventListener('click', () => {
-        row.remove();
-        updateRowNumbers();
-      });
-  
-      archiveTable.appendChild(row);
-    }
-  
-    function updateRowNumbers() {
-      const rows = archiveTable.querySelectorAll('tr');
-      archiveCounter = 0;
-      rows.forEach((row, index) => {
-        row.children[0].textContent = index + 1;
-        archiveCounter++;
-      });
-    }
-  
-    // Mengunggah file ke Firebase Storage
-    async function uploadFileToFirebase(file, fileName) {
-      try {
-        const storageRef = firebase.storage().ref(`archives/${fileName}`);
-        const uploadTask = await storageRef.put(file);
-        const fileURL = await uploadTask.ref.getDownloadURL(); // Mendapatkan URL unduhan file
-        return fileURL;
-      } catch (error) {
-        console.error("Error uploading file:", error);
-        alert("File upload failed. Please try again.");
-        return null;
-      }
-    }
-  
-    // Handle tombol upload
-    uploadButton.addEventListener('click', async () => {
-      const archiveName = document.getElementById('archiveName').value.trim();
-      const fileInput = document.getElementById('fileInput');
-      const file = fileInput.files[0];
-  
-      if (archiveName && file) {
-        const fileType = file.type || file.name.split('.').pop();
-  
-        // Unggah file ke Firebase
-        const fileURL = await uploadFileToFirebase(file, `${archiveName}_${Date.now()}`);
-        if (fileURL) {
-          addFileRow(archiveName, fileType, fileURL);
-  
-          // Reset field input
-          document.getElementById('archiveName').value = '';
-          fileInput.value = '';
-        }
-      } else {
-        alert('Please enter a name and select a file.');
-      }
-    });
-  
-    // Fungsi pencarian
-    searchInput.addEventListener('input', () => {
-      const searchTerm = searchInput.value.toLowerCase();
-      const rows = archiveTable.querySelectorAll('tr');
-  
-      rows.forEach(row => {
-        const name = row.children[1].textContent.toLowerCase();
-        const type = row.children[2].textContent.toLowerCase();
-  
-        if (name.includes(searchTerm) || type.includes(searchTerm)) {
-          row.style.display = '';
+    const imageUrlInput = document.getElementById('imageUrl');
+    const addUrlImageButton = document.getElementById('addUrlImage');
+    const imageFileInput = document.getElementById('imageFile');
+    const uploadImageButton = document.getElementById('uploadImage');
+    const imageContainer = document.getElementById('image-container');
+
+    // Load images from localStorage on page load
+    const savedImages = JSON.parse(localStorage.getItem('imageUrls')) || [];
+    savedImages.forEach(url => addImageToPage(url));
+
+    // Add image by URL
+    addUrlImageButton.addEventListener('click', () => {
+        const imageUrl = imageUrlInput.value.trim();
+        if (imageUrl) {
+            addImageToPage(imageUrl);
+
+            // Save the URL to localStorage
+            savedImages.push(imageUrl);
+            localStorage.setItem('imageUrls', JSON.stringify(savedImages));
+
+            // Clear the input field
+            imageUrlInput.value = '';
         } else {
-          row.style.display = 'none';
+            alert('Please enter a valid image URL!');
         }
-      });
     });
-  });
-  
+
+    // Add image by uploading
+    uploadImageButton.addEventListener('click', () => {
+        const file = imageFileInput.files[0];
+        if (file && file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const imageUrl = e.target.result;
+                addImageToPage(imageUrl);
+
+                // Save the URL (base64) to localStorage
+                savedImages.push(imageUrl);
+                localStorage.setItem('imageUrls', JSON.stringify(savedImages));
+            };
+            reader.readAsDataURL(file);
+
+            // Clear the file input
+            imageFileInput.value = '';
+        } else {
+            alert('Please upload a valid image file!');
+        }
+    });
+
+    function addImageToPage(url) {
+        const img = document.createElement('img');
+        img.src = url;
+        img.alt = 'Image';
+        imageContainer.appendChild(img);
+    }
+});
