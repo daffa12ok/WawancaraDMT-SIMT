@@ -160,3 +160,18 @@ section#galeri {
         font-size: 2em;
     }
 }
+.download-btn {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 15px;
+    font-size: 0.9em;
+    color: #fff;
+    background-color: #e74c3c;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.download-btn:hover {
+    background-color: #c0392b;
+}
