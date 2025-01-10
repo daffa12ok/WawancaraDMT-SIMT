@@ -1,0 +1,152 @@
+/* Reset default styling */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(to right, #f0f2f5, #e0e8f9);
+    color: #333;
+    padding: 40px 20px;
+    line-height: 1.6;
+}
+
+/* Header Section */
+header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+h1 {
+    font-size: 3.5em;
+    color: #2c3e50;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 0px; /* Jarak bawah lebih proporsional */
+    text-transform: uppercase;
+}
+
+p {
+    font-size: 1.2em;
+    color: #7f8c8d;
+    max-width: 600px;
+    margin: 0 auto 0px; /* Tambah jarak bawah */
+    letter-spacing: 0.5px;
+}
+
+/* Gallery Section */
+section#galeri {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+/* Date Subsection */
+.tanggal h2 {
+    font-size: 2.5em;
+    color: #3498db;
+    font-weight: 600;
+    text-transform: uppercase;
+    border-bottom: 3px solid #3498db;
+    padding-bottom: 12px;
+    margin-bottom: 30px;
+}
+
+/* Flexbox for Row of Items */
+.row {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+    row-gap: 40px;
+}
+
+/* Item Styling */
+.item {
+    background-color: #fff;
+    border-radius: 15px;
+    overflow: hidden;
+    width: 30%;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    text-align: center;
+    cursor: pointer;
+    margin-bottom: 20px;
+    border: 2px solid #eee;
+    padding: 15px 10px; /* Tambahkan padding */
+}
+
+.item:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+    border-color: #3498db;
+}
+
+/* Image Styling */
+.item img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+    border-bottom: 4px solid #3498db;
+    margin-bottom: 15px; /* Jarak antara gambar dan deskripsi */
+}
+
+.item img:hover {
+    transform: scale(1.05);
+}
+
+/* Item Description */
+.item p {
+    font-size: 1em;
+    color: #2c3e50;
+    padding: 0px 0;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.item:hover p {
+    color: #3498db;
+}
+
+/* Nama dan Pukul Section */
+.np-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0px; /* Tambah jarak atas */
+    margin-bottom: 0px; /* Tambah jarak bawah */
+}
+
+.np-container span {
+    font-size: 1.2em;
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+.np-container .pukul {
+    font-size: 1.2em;
+    color: #7f8c8d;
+    font-weight: 400;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .item {
+        width: 45%;
+    }
+}
+
+@media (max-width: 768px) {
+    .item {
+        width: 100%;
+    }
+    header p {
+        font-size: 1em;
+    }
+    .tanggal h2 {
+        font-size: 2em;
+    }
+}
